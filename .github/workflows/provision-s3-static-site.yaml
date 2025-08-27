@@ -30,7 +30,7 @@ jobs:
         run:
           cd Terraformcd s3-static-website
           terraform init
-          terraform apply -auto-approve -var="bucket_name=${{ env.BUCKET_NAME
+          terraform apply -auto-approve -var="bucket_name=${{ env.BUCKET_NAME }}"
       
       - name: Add comment
         run: gh issue comment "$NUMBER" --repo "$REPO" --body "$BODY"

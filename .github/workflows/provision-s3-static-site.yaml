@@ -49,7 +49,7 @@ jobs:
           echo "BUCKET_NAME=$BUCKET_NAME" >> $GITHUB_ENV
 
       - name: Run Terraform
-        run:
+        run: |
           cd terraform
           cd s3-bucket-static-website
           terraform init

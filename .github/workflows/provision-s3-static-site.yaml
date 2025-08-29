@@ -13,6 +13,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Debug - Verify Secrets are Loaded
+        run: |
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            echo "❌ ERRO: O secret AWS_ACCESS_KEY_ID não foi encontrado ou está vazio."
+            exit 1
+          else
+            echo "✅ SUCESSO: O secret AWS_ACCESS_KEY_ID foi carregado."
+          fi
+
+          if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+            echo "❌ ERRO: O secret AWS_SECRET_ACCESS_KEY não foi encontrado ou está vazio."
+            exit 1
+          else
+            echo "✅ SUCESSO: O secret AWS_SECRET_ACCESS_KEY foi carregado."
+          fi
+
+          if [ -z "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "⚠️ AVISO: O secret GITHUB_TOKEN não está disponível. O passo de comentar na issue pode falhar."
+          else
+            echo "✅ SUCESSO: O secret GITHUB_TOKEN foi carregado."
+          fi
+
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v4
         with:

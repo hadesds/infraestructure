@@ -6,7 +6,7 @@ variable "bucket_name" {
     type    = string
 }
 
-resource "aws_s3_bucket" "static_site_bucket" {
+resource "aws_s3_bucket" "static_site_bucket_configuration" {
     bucket = "static-site-${var.bucket_name}"
 
     website {
@@ -38,10 +38,10 @@ resource "aws_s3_bucket_ownership_controls" "static_site_bucket" {
 
 resource "aws_s3_bucket_acl" "static_site_bucket" {
     depends_on = [
-        aws_s3_bucket_public_acess_block.static_site_bucket,
+        aws_s3_bucket_public_access_block.static_site_bucket,
         aws_s3_bucket_ownership_controls.static_site_bucket,
         ]
 
-    bucket  = aws_s3_bucket.static_site_bucket.index_document
+    bucket  = aws_s3_bucket.static_site_bucket.id
     acl     = "public-read"
 }

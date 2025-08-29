@@ -6,18 +6,25 @@ variable "bucket_name" {
     type    = string
 }
 
-resource "aws_s3_bucket" "static_site_bucket_configuration" {
-    bucket = "static-site-${var.bucket_name}"
+resource "aws_s3_bucket" "static_site_bucket" {
+  bucket = var.bucket_name
 
-    website {
-        index_document = "index.html"
-        error_document = "404.html"
-    }
+  tags = {
+    Name        = "Static Site Bucket"
+    Environment = "Production"
+  }
+}
 
-    tags = {
-        Name = "Static Site Bucket"
-        Enviroment = "Production"
-    }
+resource "aws_s3_bucket_website_configuration" "static_site_bucket" {
+  bucket = aws_s3_bucket.static_site_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "404.html"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "static_site_bucket" {
